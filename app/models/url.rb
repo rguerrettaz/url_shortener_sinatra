@@ -1,6 +1,5 @@
 class Url < ActiveRecord::Base
 
-  before_validation :format_url
   before_create :create_shortened
   
 
@@ -19,13 +18,6 @@ class Url < ActiveRecord::Base
 
   def create_shortened
     self.shortened = ((0..5).map { ('a'..'z').to_a.sample }.join)
-  end
-
-  def format_url
-    unless self.original =~ /^http:\/\//
-      self.original = 'http://' + self.original
-    end
-    self.original
   end
 
 end

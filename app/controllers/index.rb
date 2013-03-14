@@ -15,15 +15,9 @@ post '/' do
 
   content_type :json
 
-  if params[:url] =~ /^http:\/\//
-    url = params[:url]
-  else 
-    url =  'http://' + params[:url]
-  end
-
-  if Url.find_by_original(url)
-    url_obj = Url.find_by_original(url)
-  else
+  url = ensure_protocol(params[:url])
+  url_obj = Url.find_by_original(url)
+  unless url_obj
     url_obj = Url.create(original: url)
   end
   # new_url.original.to_s
